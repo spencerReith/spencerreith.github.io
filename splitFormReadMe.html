@@ -1,0 +1,181 @@
+**splitForm – multi-layer epoxy inlay software**
+
+Spencer Reith
+Spring 2024
+
+
+
+
+
+
+General
+=================
+This document describes the purpose and usage of my woodworking software, 'splitForm'.
+In the 'examples' folder, you can see actual examples of pieces I've produced using the software.
+
+Purpose
+================
+There are three primary usages for splitForm.
+
+I. Optimizing Images for Laser Printing
+II. Epoxy Inlays
+IV. Creating Intricate Wooden Stencils
+
+The following sections describes these distinct usages and their respective overlaps.
+A glossary of woodworking terms is provided below for anyone unfamiliar these tools and processes.
+
+Optimizing Images for Laser Printing
+--------------------------------
+
+When someone wants to engrave an image on a piece of wood with a laser printer, the traditional process is as follows:
+-> convert image to grayscale
+-> adjust aspects (including darkness, contrast, etc) of the image to emphasize the most important parts
+
+This leaves you with a working image. However, it still includes all the grayed-out portions of the main image.
+In many situations, this is not preffered. And, there is no easy way to remove it.
+
+Split form allows you to remove any percentage of pixels that are too light, and to choose which layers of the dark pixels you want to keep.
+This way, once you engrave the image, the blank space you've left can showcase the wood's natural color.
+
+Without SplitForm:
+//INSERT IMAGE
+
+With SplitForm:
+//INSERT IMAGE
+
+Epoxy Inlays
+--------------------------------
+
+These optimized images can be laser printed into a piece of wood, and then filled with clear epoxy.
+
+Since the laser printer leaves darkened marks, the clear epoxy will take on a nearly black shade.
+Or, a person can fill the relief with any colored epoxy that he or she desires.
+
+Mult-Layer Inlays
+
+** Safety Note **
+If the laser-printer hits on or text to an epoxy filled area, there is a serious risk of fire.
+Any multi-layer inlays should be conducted on CNC machines.
+
+One can use SplitForm to rip in image into however many pieces they desire. Then, you can pick the layer, and carve a relief into your piece of wood.
+Afterwards, fill it with epoxy, and plane the top. Align your board, and make another relief.
+Fill that relief with a different colored epoxy, and plane it once again. Repeat this process for however many pieces you desire.
+You can visualize your final result by looking at the "composite" image that SplitForm will output.
+
+Creating Intricate Wooden Stencils
+--------------------------------
+
+Either the "composite" image, or a single output image, can be used to create a wooden stencil.
+By placing a piece of plywood onto a CNC machine or laser cutter, you can upload your image and to cut a relief into your piece of wood.
+That piece of wood can now serve as a stencil. By holding it up to some surface, you can spray-paint a surface you are left with your desired image.
+
+** Note **
+The user is expected to be aware that for any image containing an 'island', the island will fall out due to a lack of connections with the rest of the wood.
+
+Usage
+================
+
+Command Line Arguments
+--------------------------------
+The program takes 3 paramaters from the command line.
+
+I. Image Address
+The name of your image. The image should be located in the sourceImages folder.
+
+II. Divisions
+The amount of sub-images you want. For example, lets say you want to divide your image into 4 pieces.
+The 0th sub-image will contain the darkest 25% of pixels. The 1st will contain the 25-50 percentiles of pixels, sorted darkest to lightest. And so on for each quantile.
+
+III. WhiteRemovalThresholdPCT
+In many cases, images contain a large amount of light-colored pixels, which you do not desire to keep in your final image.
+In this case, you can specify what percent of light-pixels you want to remove. Note, this percentage operates on an absolute scale, ie, is unrelated to the color of the image you are feeding in.
+Setting WhiteRemovalThresholdPCT to .5 (aka, 50%), will exclude 50% of colors, anything grayscale colors (127.5 / 255) (aka, 50%) and above.
+Thus, a 100% WhiteRemovalThresholdPCT would consider no pixels, since you are not considering the lightest 100% of colors.
+
+Folders
+--------------------------------
+All input images should be placed in the 'sourceImages' folder. Individual divisions of an image will be outputed in the 'outputImages' folder. All composite images will be outputed in the 'composites' folder.
+
+Examples
+--------------------------------
+
+Examine the following terminal session for an example of how the program works:
+
+~~~
+user@Users-MacBook src % python3 main.py
+Usage: imageName divisions whiteThresholdPCT
+spartan.jpg 3 .3
+~~~
+
+The original spartan.jpg file from the sourceImages folder looks as follows:
+
+![spartan.jpg](images/spartan.jpg)
+
+Then, printed in your outputImages/ folder, you will find the following files:
+
+![outputVector.spartan.jpg[0].jpg](images/outputVector.spartan.jpg[0].jpg)
+![outputVector.spartan.jpg[1].jpg](images/outputVector.spartan.jpg[1].jpg)
+![outputVector.spartan.jpg[2].jpg](images/outputVector.spartan.jpg[2].jpg)
+
+The printed composite vector will appear in the composites folder.
+
+![composite.spartan.jpg](images/composite.spartan.jpg)
+
+III. Real-World Implementations
+================
+
+Coffee Table (Walnut and Ash)
+--------------------------------
+
+I recently used splitform to build a coffee table with an engraved top.
+My orginial image is below:
+
+![Lion Hunt of Ashurbanipal](images/tiger.jpeg)
+
+I used one of the outputImages to laser engrave this design at the Dartmouth Woodshop.
+
+![outputImage for 'Lion Hunt of Ashurbanipal'](images/tigerOutput.jpg)
+
+The tabletop can be seen below:
+
+![Walnut Coffee Table, Top Made with Previous Output Image](images/coffeeTable.jpg)
+
+
+
+
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+<style>
+    body {font-family:'Open Sans',sans-serif;}
+    .md a:link, .md a:visited {color:hsl(252,23.0%,44.3%); font-family:'Open Sans',sans-serif;}
+    .md table.table th {background-color:hsl(252,23.0%,44.3%);}
+    .md .noheader th {display:none;}
+    .md .firstcol td:first-child {white-space:pre;color:white;vertical-align:top;font-weight:bold;border-color:black;background:hsl(252,23.0%,54.3%);}
+    .md .firstcol tr:nth-child(even) td:first-child {background:hsl(252,23.0%,44.3%);}
+</style>
+
+
+
+<script>
+    setTimeout(function() {
+        var dollars = document.getElementsByClassName('dollar');
+        for(var i = 0; i < dollars.length; i++) {
+            dollars[i].innerHTML = '&#' + '36;';
+        }
+    }, 1000);
+</script>
+<style>
+    :not(pre) > code {
+        background-color: rgba(0,0,0,0.05);
+        outline: 1px solid rgba(0,0,0,0.15);
+        margin-left: 0.25em;
+        margin-right: 0.25em;
+    }
+    .md div.mediumTOC { background: white; }
+    .md div.admonition { position: initial !important; }
+</style>
+
+
+<script src="https://casual-effects.com/markdeep/latest/markdeep.min.js"></script><!-- Markdeep: --><style class="fallback">body{visibility:hidden;white-space:pre;font-family:monospace}</style><script src="markdeep.min.js"></script><script src="https://casual-effects.com/markdeep/latest/markdeep.min.js?"></script><script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>
