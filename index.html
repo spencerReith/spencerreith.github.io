@@ -1,12 +1,60 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Portfolio – Spencer Reith</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio – Spencer Reith</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Portfolio – Spencer Reith</h1>
-    <p>Portfolio</p>
-    <a href="splitFormReadMe.html">splitForm link</a>
-    <p>change</p>
+    <header>
+        <h1>Portfolio – Spencer Reith</h1>
+        <nav>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <section id="about">
+        <h2>About Me</h2>
+        <p>Rising Junior at Dartmouth College, studying Computer Science and Mathematics. Academic interests include Graph Theory, Web Development, and Data Analysis.</p>
+    </section>
+    <section id="projects">
+        <h2>Projects</h2>
+        <div class="project">
+            <h3>SplitForm – Multi-Layer Epoxy Inlay Software</h3>
+            <a href="splitFormReadMe.html">SplitForm ReadMe.</a>
+            <a href="https://github.com/spencerReith/splitForm">Repo on GitHub.</a>
+            <p>Versatile software designed for woodworking projects. Allows users to optimize images for laser printing to create intricate epoxy inlays. Users can refine images by removing lighter pixels and dividing an image into layers for multi-colored inlays. Yields high-quality custom designs.</p>
+        </div>
+        
+        <div class="project">
+            <h3>Tindar – Dating Website Swiping Algorithm</h3>
+            <a href="tindarAlgorithmReadMe.html">Tindar Dating Algorithm ReadMe.</a>
+            <a href="https://github.com/spencerReith/TindarDatingAlgorithm">Repo on GitHub.</a>
+            <p>'Swiping' algorithm for the web application 'Tindar', a dating app that parodies 'Tinder'. Launching at Dartmouth College Fall of 2024.</p>
+        </div>
+        <div class="project">
+            <h3>Tiny Search Engine</h3>
+            <a href="">TSE ReadMe.</a>
+            <a href="">Repo on GitHub.</a>
+            <p>Web crawling and indexing system designed to collect, organize and search web content. Contains three subsystems: a crawler, indexer, and querier for executing and ranking results of search queries.</p>
+        </div>
+        <div class="project">
+            <h3>tmbr – Commodities Trading Programming Language</h3>
+            <p>Programming language specifically designed for anaylzying commodity prices. Simple and intuitive syntax allows programmers to analyze historical data, optimize prediction algorithms, and predict futures prices.</p>
+            <p>** In development **</p>
+        </div>
+        
+    </section>
+    <section id="contact">
+        <h2>Contact</h2>
+        <p>You can reach me via email at <a href="mailto:spencer.k.reith.26@dartmouth.edu">spencer.k.reith.26@dartmouth.edu</a>.</p>
+    </section>
+    <footer>
+        <p>&copy; 2024 – Spencer Reith</p>
+    </footer>
 </body>
 </html>
