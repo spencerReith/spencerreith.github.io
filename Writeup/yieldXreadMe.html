@@ -1,0 +1,364 @@
+**YieldX**
+
+Spencer Reith, Mathew Sebastian
+
+Summer 2024
+
+Overview
+=================
+This document describes the purpose and usage of YieldX, a language written by Spencer Reith and Mathew Sebastian.
+
+Purpose of the Language
+--------------------------------
+We sought to create a programming language with built in tools to analyze and predict commodities prices.
+While languages like Python and R have lots of data analysis tools, they lacked any inherent methods to analyse a commodity and the factors which might impact its price.\newline
+
+Our language seeks to answer the following questions:
+- What is a fair futures price for a given commodity?
+- How does an environmental factor impact a commidity's price?
+- How do multiple environmental factors, when assigned weights, impact a commodity's price?
+
+Executing in Your Local Environment
+--------------------------------
+Refer to 'readMe.txt' for instructions to set up our code on your own device.
+
+Advantages of YieldX over Traditional Solutions
+=================
+Analying data and making predictive models can certainly be done in a variety of pre-existing languages, including Python, R, and Matlab.
+This sections seeks to clarify the advantages of using YieldX over more traditional languages.
+
+Intuitive Syntax
+--------------------------------
+YieldX is simple to learn. Keywords and datatypes are designed to be self-explanatory, reducing the barrier to entry for new programmers.
+This design allows for users to focus on the logic of their forecasts, rather than potential issues that could arise through syntactical errors.
+See below how a user might load in data to prepare for a forecast.
+
+~~~~
+COMMODITY gold = {inputs/gold.csv}
+COMMODITY silver = {inputs/silver.csv}
+COMMODITY wheat = {inputs/wheat.csv}
+COMMODITY corn = {inputs/corn.csv}
+~~~~
+
+Concise
+--------------------------------
+Another advantage of YieldX over more traditional solutions is that a very minimal amount of text can be used to create complex forecasts.
+See below how one can use YieldX to evaluate how rainfall rates might impact corn prices:
+
+~~~
+COMMODITY corn = {inputs/corn.csv}
+INFLATION infl = {inputs/inflation.csv}
+
+corn.normalize(infl)
+
+FACTOR rainfall = {inputs/rainfall.csv}
+
+prediction = corn.futures(previousYears = 2008-2009, futureYears = year, factor = rainfall)
+~~~
+
+In 5 lines, the user has run a linear regression dependent on previous corn prices and rainfall levels, choosing data from a specified date range, and looking ahead to a specific point in the future.
+
+Built-In Functionality
+--------------------------------
+Through YieldX's built-in functionality, we remove a barrier to entry that might prevent industry experts from creating computational models.
+In other languages, running financial predictions is a much more complex process.
+
+Take our previous example, in which a user writes a program to predict corn futures in 5 lines.
+See all the following requirements that would be required to accomplish this same task in python.
+
+-> Understanding Pandas
+-> Loading/reading CSV files
+-> Loading, merging, and performing operations on dataframes
+-> Normalizing historical prices based on inflation rates
+-> Importing statistcs libraries to run regressions and other predictive algorithms
+-> Creating a composite prediction based on weights of multiple seperate regressions
+
+
+Our language inherently offers the following functionality:
+-> Loading in CSV files with data
+-> Creating lists of commodities and factors to allow bulk data operations
+-> Normalization of data
+-> Functions to generate predictions for commodity prices
+-> Iterated processing of predictions
+
+Unique Iterative Structure
+--------------------------------
+YieldX offers an original take on iteration.
+This section walks through two different styles of iteration that a user can utilize in their predictions. Both of these types of iteration also support using a list of commodities as input and applying the specific iteration to each commodity in the list. And, of course, prediction supports using a single factor at 100% weight.
+
+
+**Weighted Iteration:**
+Used for when you want to assign weights to all the factors to make a singular prediction for the commodity using a combination of information from all of the different factors. For example, 
+~~~~
+corn.REGRESSION(6/1/2024-6/5/2024, 6/10/2024,rainfall=5, political=10)
+~~~~
+would output a single prediction weighting the effect of the political factor twice as much as the rainfall factor.
+
+**Separate Iteration:**
+Used for when you want to use all the factors at different weights and make a separate prediction using each factor. For example,
+~~~~
+corn.REGRESSION(6/1/2024-6/5/2024, 6/10/2024,rainfall, political)
+~~~~
+would output 2 predictions, the first would calculate the predicted corn price solely considering rainfall as a factor and the second would calculate the predicted corn price solely considering political as a factor.
+
+
+More concrete examples are demonstrated later on in the example usages section.
+
+
+Example Usages
+================
+The following example code demonstrates the functionality of the YieldX using dummy data. Although all the values are arbitrary and the input files have been shrunk for ease of use, understanding, and ensuring correctness, the outputs are correct for the values provided in the input files.
+
+These are the csv files used for the following demo:
+
+corn.csv:
+<div class="noheader firstcol">
+                  |             
+------------------|-------------
+Date              | Corn
+06/01/2024        | 1
+06/02/2024        | 2
+06/03/2024        | 3
+06/04/2024        | 4
+06/05/2024        | 5
+</div>
+
+wheat.csv:
+<div class="noheader firstcol">
+                  |             
+------------------|-------------
+Date              | Wheat
+06/01/2024        | 2
+06/02/2024        | 4
+06/03/2024        | 6
+06/04/2024        | 8
+06/05/2024        | 10
+</div>
+
+oil.csv:
+<div class="noheader firstcol">
+                  |             
+------------------|-------------
+Date              | Oil
+06/01/2024        | 80
+06/02/2024        | 78
+06/03/2024        | 54
+06/04/2024        | 67
+06/05/2024        | 90
+</div>
+
+political.csv:
+<div class="noheader firstcol">
+                  |             
+------------------|-------------
+Date              | Political
+06/01/2024        | 5
+06/02/2024        | 4
+06/03/2024        | 3
+06/04/2024        | 2
+06/05/2024        | 1
+</div>
+
+rainfall.csv:
+<div class="noheader firstcol">
+                  |             
+------------------|-------------
+Date              | Rain
+06/01/2024        | 5
+06/02/2024        | 10
+06/03/2024        | -34
+06/04/2024        | 100
+06/05/2024        | 0
+</div>
+
+inflation.csv:
+<div class="noheader firstcol">
+                  |             
+------------------|-------------
+Date              | Inflation
+06/01/2024        | 2.7
+06/02/2024        | 2.7
+06/03/2024        | 2.7
+06/04/2024        | 2.7
+06/05/2024        | 2.7
+</div>
+
+Although the following code is broken up into separate blocks, this demo was run as one file (to avoid having to repeatedly load the files and clean the data to demo each piece of functionality).
+
+Example 1
+--------------------------------
+Demonstrating how files are loaded in and processed:
+~~~~
+COMMODITY corn = Input/Datafiles/corn.csv, 0, 1
+COMMODITY wheat = Input/Datafiles/wheat.csv, 0, 1
+COMMODITY oil = Input/Datafiles/oil.csv, 0, 1
+
+FACTOR rainfall = Input/Datafiles/rainfall.csv, 0, 1
+FACTOR political = Input/Datafiles/political.csv, 0, 1
+
+INFLATION inflation = Input/Datafiles/inflation.csv, 0, 1
+~~~~
+
+Output for Example 1:
+
+![](Example1.png)
+
+Example 2 
+--------------------------------
+Demonstrating how lists are created and items are added and removed:
+~~~~
+LIST COMMODITY myCOMMODITIES = corn, wheat
+myCOMMODITIES.ADD(oil)
+myCOMMODITIES.REMOVE(oil)
+~~~~
+
+Output for Example 2:
+
+![](Example2.png)
+
+Example 3 
+--------------------------------
+Demonstrating that one can normalize data for inflation by assuming the inflation value provided is the percent change in the price since the base year.
+
+~~~~
+oil.normalize(inflation)
+~~~~
+
+Output for Example 3:
+
+![](Example3.png)
+
+
+Example 4 
+--------------------------------
+Demonstrating separate iteration works on both single commodities and lists of commodities:
+~~~~
+corn.REGRESSION(6/1/2024-6/5/2024, 6/10/2024,rainfall, political)
+wheat.REGRESSION(6/1/2024-6/5/2024, 6/10/2024,rainfall, political)
+myCOMMODITIES.REGRESSION(6/1/2024-6/5/2024, 6/10/2024,rainfall, political)
+~~~~
+
+Output for Example 4:
+
+![](Example4.png)
+
+This output demonstrates a couple of things. First, notice how the first 4 outputs are the same as the last 4 outputs. This is showing that running each commodity separately gives the same output as running the commodities in the list. Secondly, observe the result of 10 (excluding the marginal .000000000002 which is how python represents floats) for predicting corn with rainfall. This is exactly the value it should be since both corn and rainfall are lines with a slope of magnitude 1 and an intercept of 0, so from this data the first regression can generate an exact value for the amount of rainfall predicted on the target date and the second regression can generate an exact value of the price of corn based on the predicted amount of rain at the target date.
+
+Example 5 
+--------------------------------
+Demonstrating weighted iteration works on both single commodities and lists of commodities:
+~~~~
+corn.REGRESSION(6/1/2024-6/5/2024, 6/10/2024,rainfall=5, political=10)
+wheat.REGRESSION(6/1/2024-6/5/2024, 6/10/2024,rainfall=5, political=10)
+myCOMMODITIES.REGRESSION(6/1/2024-6/5/2024, 6/10/2024,rainfall=5, political=10)
+~~~~
+
+Output for Example 5:
+
+![](Example5.png)
+
+Note that the first 2 outputs are the same as the last 2 outputs. This shows that running each commodity separately gives the same output as running the commodities in the list. Secondly, if you take the values from Example 4 and calculate a weighted average giving political twice as much weight as rainfall, you would get the calculated values obtained in Example 5 verifying that the answers we have obtained here are correct.
+
+Example 6 
+--------------------------------
+Demonstrating normalization works on lists of commodities:
+~~~~
+myCOMMODITIES.normalize(inflation)
+~~~~
+
+Output for Example 6:
+
+![](Example6.png)
+
+Here, we show that normalization works on a list of commodities. It is included down here instead of in Example 3 because we wanted to preserve the values of corn and wheat for examples 4 and 5 to make the verification of the correctness of the calculation easier and more apparent.
+
+Example 7 
+--------------------------------
+Demonstrating prediction works on a single factor and can take a normalized commodity as input:
+~~~~
+oil.REGRESSION(6/1/2024-6/5/2024, 6/10/2024,political)
+~~~~
+
+Output for Example 7:
+
+![](Example7.png)
+
+Here we show that a single factor (with 100% weight) to make a prediction and that we can use a normalized commodity as input.
+
+
+Meaningful Example
+=================
+For this example, we will be using real-world wheat price data obtained through Investing.com and weather data (temperature, wind, and rain) to predict the wheat price. The parameters we have set are using data from January 1, 2023 - August 1, 2024 as the data to base the prediction off of, then we will predict what the price of wheat will be on September 1, 2024 which is a realistic calculation someone might attempt to make in order to buy/sell futures contracts. We don't have a way to verify what the price will be in the future since we can't see into the future, but we can be confident that the prediction will calculated correctly, however it is not likely to be completely accurate since there are many more factors which will affect wheat prices, and as mentioned before the prices might not be best modeled by a linear function. However, this is still a meaningful and useful output as it can serve as a baseline for other prediction techniques. Multiple predictions were generated. First, a prediction is generated using each factor at 100% weight, second a weighted prediction is generated using each factor at an equal weight, lastly a prediction is generated using unequal weights based of what I thought would be most relevant. The files will not be included here in the readme since they are each a couple hundred lines long, they have been included in the zip submission file, and the head and tail of the file is shown loaded into the dataframe so you can get a sense of the data. As you can see when the files are loaded in some days have a missing value (represented by NaN), which makes sense since exchanges aren't trading on holidays and the weekend so no data would be available. The program is structured to ignore those dates and only make predictions off of dates where we have data available.
+
+Test code
+--------------------------------
+~~~~
+COMMODITY wheatActual = Input/wheatActual.csv, 0, 1
+
+FACTOR rain = Input/rain.csv, 0, 1
+FACTOR wind = Input/wind.csv, 0, 1
+FACTOR temperature = Input/temperature.csv, 0, 1
+
+wheatActual.REGRESSION(1/1/2023-8/1/2024, 9/1/2024,rain, wind, temperature)
+wheatActual.REGRESSION(1/1/2023-8/1/2024, 9/1/2024,rain=1, wind=1, temperature=1)
+wheatActual.REGRESSION(1/1/2023-8/1/2024, 9/1/2024,rain=3, wind=1, temperature=2)
+~~~~
+
+Results
+--------------------------------
+
+![](Output1.png)
+![](Output2.png)
+
+
+Moving Forward
+=================
+As currently built, the YieldX only incorporates 1 mathematical function for generating predictions: linear regression. While useful, it has limitations since the line of best fit can be very inaccurate on non-linear data, which some commodities (e.g. crops which are heavily season dependent). To better model other kinds of data we have built the option to include more futures functions into the grammar allowing for easy and quick expansion of the language. We hope to work with economics professors in the dartmouth economics department to make our models more realistic and our language more user friendly to economists.
+
+
+
+<!--   Feel free to modify the following to fit a theme of your choosing   -->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet"> <!-- a sans-serif font -->
+<style>  /* A TAYLOR-INSPIRED THEME */
+    body {font-family:'Open Sans',sans-serif;}
+    .md a:link, .md a:visited {color:hsl(252,23.0%,44.3%); font-family:'Open Sans',sans-serif;}
+    .md table.table th {background-color:hsl(252,23.0%,44.3%);}
+    .md .noheader th {display:none;}
+    .md .firstcol td:first-child {white-space:pre;color:white;vertical-align:top;font-weight:bold;border-color:black;background:hsl(252,23.0%,54.3%);}
+    .md .firstcol tr:nth-child(even) td:first-child {background:hsl(252,23.0%,44.3%);}
+</style>
+
+
+<!-- ****************************** -->
+<!--    Leave the content below     -->
+<!-- ****************************** -->
+
+<!-- The script and style below are added for clarity and to workaround a bug -->
+<script>
+    // this is a hack to workaround a bug in Markdeep+Mathjax, where
+    // `$`` is automatically converted to `\(`` and `\)`` too soon.
+    // the following code will replace the innerHTML of all elements
+    // with class "dollar" with a dollar sign.
+    setTimeout(function() {
+        var dollars = document.getElementsByClassName('dollar');
+        for(var i = 0; i < dollars.length; i++) {
+            dollars[i].innerHTML = '&#' + '36;'; // split to prevent conversion to $
+        }
+    }, 1000);
+</script>
+<style>
+    /* adding some styling to <code> tags (but not <pre><code> coding blocks!) */
+    :not(pre) > code {
+        background-color: rgba(0,0,0,0.05);
+        outline: 1px solid rgba(0,0,0,0.15);
+        margin-left: 0.25em;
+        margin-right: 0.25em;
+    }
+    /* fixes table of contents of medium-length document from looking weird if admonitions are behind */
+    .md div.mediumTOC { background: white; }
+    .md div.admonition { position: initial !important; }
+</style>
+
+<!--   Leave the following Markdeep formatting code, as this will format your text above to look nice in a wed browser   -->
+
+<script src="https://casual-effects.com/markdeep/latest/markdeep.min.js"></script><!-- Markdeep: --><style class="fallback">body{visibility:hidden;white-space:pre;font-family:monospace}</style><script src="markdeep.min.js"></script><script src="https://casual-effects.com/markdeep/latest/markdeep.min.js?"></script><script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>
