@@ -201,7 +201,7 @@ INFLATION inflation = Input/Datafiles/inflation.csv, 0, 1
 
 Output for Example 1:
 
-![](writeup/Example1.png)
+![](Writeup/Example1.png)
 
 Example 2 
 --------------------------------
@@ -214,7 +214,7 @@ myCOMMODITIES.REMOVE(oil)
 
 Output for Example 2:
 
-![](writeup/Example2.png)
+![](Writeup/Example2.png)
 
 Example 3 
 --------------------------------
@@ -226,7 +226,7 @@ oil.normalize(inflation)
 
 Output for Example 3:
 
-![](writeup/Example3.png)
+![](Writeup/Example3.png)
 
 
 Example 4 
@@ -240,7 +240,7 @@ myCOMMODITIES.REGRESSION(6/1/2024-6/5/2024, 6/10/2024, rainfall, political)
 
 Output for Example 4:
 
-![](writeup/Example4.png)
+![](Writeup/Example4.png)
 
 This output demonstrates a couple of things. First, notice how the first 4 outputs are the same as the last 4 outputs. This is showing that running each commodity separately gives the same output as running the commodities in the list. Secondly, observe the result of 10 (excluding the marginal .000000000002 which is how python represents floats) for predicting corn with rainfall. This is exactly the value it should be since both corn and rainfall are lines with a slope of magnitude 1 and an intercept of 0, so from this data the first regression can generate an exact value for the amount of rainfall predicted on the target date and the second regression can generate an exact value of the price of corn based on the predicted amount of rain at the target date.
 
@@ -255,7 +255,7 @@ myCOMMODITIES.REGRESSION(6/1/2024-6/5/2024, 6/10/2024, rainfall=5, political=10)
 
 Output for Example 5:
 
-![](writeup/Example5.png)
+![](Writeup/Example5.png)
 
 Note that the first 2 outputs are the same as the last 2 outputs. This shows that running each commodity separately gives the same output as running the commodities in the list. Secondly, if you take the values from Example 4 and calculate a weighted average giving political twice as much weight as rainfall, you would get the calculated values obtained in Example 5 verifying that the answers we have obtained here are correct.
 
@@ -268,7 +268,7 @@ myCOMMODITIES.normalize(inflation)
 
 Output for Example 6:
 
-![](writeup/Example6.png)
+![](Writeup/Example6.png)
 
 Here, we show that normalization works on a list of commodities. It is included down here instead of in Example 3 because we wanted to preserve the values of corn and wheat for examples 4 and 5 to make the verification of the correctness of the calculation easier and more apparent.
 
@@ -281,7 +281,7 @@ oil.REGRESSION(6/1/2024-6/5/2024, 6/10/2024,political)
 
 Output for Example 7:
 
-![](writeup/Example7.png)
+![](Writeup/Example7.png)
 
 Here we show that a single factor (with 100% weight) to make a prediction and that we can use a normalized commodity as input.
 
@@ -307,8 +307,8 @@ wheatActual.REGRESSION(1/1/2023-8/1/2024, 9/1/2024, rain=3, wind=1, temperature=
 Results
 --------------------------------
 
-![](writeup/Output1.png)
-![](writeup/Output2.png)
+![](Writeup/Output1.png)
+![](Writeup/Output2.png)
 
 
 Moving Forward
