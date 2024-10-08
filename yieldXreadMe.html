@@ -11,7 +11,7 @@ This document describes the purpose and usage of YieldX, a language written by S
 Purpose of the Language
 --------------------------------
 We sought to create a programming language with built in tools to analyze and predict commodities prices.
-While languages like Python and R have lots of data analysis tools, they lacked any inherent methods to analyse a commodity and the factors which might impact its price.\newline
+While languages like Python and R have lots of data analysis tools, they lacked any inherent methods to analyse a commodity and the factors which might impact its price.
 
 Our language seeks to answer the following questions:
 - What is a fair futures price for a given commodity?
@@ -20,7 +20,7 @@ Our language seeks to answer the following questions:
 
 Executing in Your Local Environment
 --------------------------------
-Refer to 'readMe.txt' for instructions to set up our code on your own device.
+Refer to <a href="https://github.com/Matthew-Seb/CS59-Language-Project">'README.md'</a> for instructions to set up our code on your own device.
 
 Advantages of YieldX over Traditional Solutions
 =================
@@ -90,14 +90,14 @@ This section walks through two different styles of iteration that a user can uti
 **Weighted Iteration:**
 Used for when you want to assign weights to all the factors to make a singular prediction for the commodity using a combination of information from all of the different factors. For example, 
 ~~~~
-corn.REGRESSION(6/1/2024-6/5/2024, 6/10/2024,rainfall=5, political=10)
+corn.REGRESSION(6/1/2024-6/5/2024, 6/10/2024, rainfall=5, political=10)
 ~~~~
 would output a single prediction weighting the effect of the political factor twice as much as the rainfall factor.
 
 **Separate Iteration:**
 Used for when you want to use all the factors at different weights and make a separate prediction using each factor. For example,
 ~~~~
-corn.REGRESSION(6/1/2024-6/5/2024, 6/10/2024,rainfall, political)
+corn.REGRESSION(6/1/2024-6/5/2024, 6/10/2024, rainfall, political)
 ~~~~
 would output 2 predictions, the first would calculate the predicted corn price solely considering rainfall as a factor and the second would calculate the predicted corn price solely considering political as a factor.
 
@@ -201,7 +201,7 @@ INFLATION inflation = Input/Datafiles/inflation.csv, 0, 1
 
 Output for Example 1:
 
-![](Example1.png)
+![](writeup/Example1.png)
 
 Example 2 
 --------------------------------
@@ -214,7 +214,7 @@ myCOMMODITIES.REMOVE(oil)
 
 Output for Example 2:
 
-![](Example2.png)
+![](writeup/Example2.png)
 
 Example 3 
 --------------------------------
@@ -226,21 +226,21 @@ oil.normalize(inflation)
 
 Output for Example 3:
 
-![](Example3.png)
+![](writeup/Example3.png)
 
 
 Example 4 
 --------------------------------
 Demonstrating separate iteration works on both single commodities and lists of commodities:
 ~~~~
-corn.REGRESSION(6/1/2024-6/5/2024, 6/10/2024,rainfall, political)
-wheat.REGRESSION(6/1/2024-6/5/2024, 6/10/2024,rainfall, political)
-myCOMMODITIES.REGRESSION(6/1/2024-6/5/2024, 6/10/2024,rainfall, political)
+corn.REGRESSION(6/1/2024-6/5/2024, 6/10/2024, rainfall, political)
+wheat.REGRESSION(6/1/2024-6/5/2024, 6/10/2024, rainfall, political)
+myCOMMODITIES.REGRESSION(6/1/2024-6/5/2024, 6/10/2024, rainfall, political)
 ~~~~
 
 Output for Example 4:
 
-![](Example4.png)
+![](writeup/Example4.png)
 
 This output demonstrates a couple of things. First, notice how the first 4 outputs are the same as the last 4 outputs. This is showing that running each commodity separately gives the same output as running the commodities in the list. Secondly, observe the result of 10 (excluding the marginal .000000000002 which is how python represents floats) for predicting corn with rainfall. This is exactly the value it should be since both corn and rainfall are lines with a slope of magnitude 1 and an intercept of 0, so from this data the first regression can generate an exact value for the amount of rainfall predicted on the target date and the second regression can generate an exact value of the price of corn based on the predicted amount of rain at the target date.
 
@@ -248,14 +248,14 @@ Example 5
 --------------------------------
 Demonstrating weighted iteration works on both single commodities and lists of commodities:
 ~~~~
-corn.REGRESSION(6/1/2024-6/5/2024, 6/10/2024,rainfall=5, political=10)
-wheat.REGRESSION(6/1/2024-6/5/2024, 6/10/2024,rainfall=5, political=10)
-myCOMMODITIES.REGRESSION(6/1/2024-6/5/2024, 6/10/2024,rainfall=5, political=10)
+corn.REGRESSION(6/1/2024-6/5/2024, 6/10/2024, rainfall=5, political=10)
+wheat.REGRESSION(6/1/2024-6/5/2024, 6/10/2024, rainfall=5, political=10)
+myCOMMODITIES.REGRESSION(6/1/2024-6/5/2024, 6/10/2024, rainfall=5, political=10)
 ~~~~
 
 Output for Example 5:
 
-![](Example5.png)
+![](writeup/Example5.png)
 
 Note that the first 2 outputs are the same as the last 2 outputs. This shows that running each commodity separately gives the same output as running the commodities in the list. Secondly, if you take the values from Example 4 and calculate a weighted average giving political twice as much weight as rainfall, you would get the calculated values obtained in Example 5 verifying that the answers we have obtained here are correct.
 
@@ -268,7 +268,7 @@ myCOMMODITIES.normalize(inflation)
 
 Output for Example 6:
 
-![](Example6.png)
+![](writeup/Example6.png)
 
 Here, we show that normalization works on a list of commodities. It is included down here instead of in Example 3 because we wanted to preserve the values of corn and wheat for examples 4 and 5 to make the verification of the correctness of the calculation easier and more apparent.
 
@@ -281,7 +281,7 @@ oil.REGRESSION(6/1/2024-6/5/2024, 6/10/2024,political)
 
 Output for Example 7:
 
-![](Example7.png)
+![](writeup/Example7.png)
 
 Here we show that a single factor (with 100% weight) to make a prediction and that we can use a normalized commodity as input.
 
@@ -299,21 +299,21 @@ FACTOR rain = Input/rain.csv, 0, 1
 FACTOR wind = Input/wind.csv, 0, 1
 FACTOR temperature = Input/temperature.csv, 0, 1
 
-wheatActual.REGRESSION(1/1/2023-8/1/2024, 9/1/2024,rain, wind, temperature)
-wheatActual.REGRESSION(1/1/2023-8/1/2024, 9/1/2024,rain=1, wind=1, temperature=1)
-wheatActual.REGRESSION(1/1/2023-8/1/2024, 9/1/2024,rain=3, wind=1, temperature=2)
+wheatActual.REGRESSION(1/1/2023-8/1/2024, 9/1/2024, rain, wind, temperature)
+wheatActual.REGRESSION(1/1/2023-8/1/2024, 9/1/2024, rain=1, wind=1, temperature=1)
+wheatActual.REGRESSION(1/1/2023-8/1/2024, 9/1/2024, rain=3, wind=1, temperature=2)
 ~~~~
 
 Results
 --------------------------------
 
-![](Output1.png)
-![](Output2.png)
+![](writeup/Output1.png)
+![](writeup/Output2.png)
 
 
 Moving Forward
 =================
-As currently built, the YieldX only incorporates 1 mathematical function for generating predictions: linear regression. While useful, it has limitations since the line of best fit can be very inaccurate on non-linear data, which some commodities (e.g. crops which are heavily season dependent). To better model other kinds of data we have built the option to include more futures functions into the grammar allowing for easy and quick expansion of the language. We hope to work with economics professors in the dartmouth economics department to make our models more realistic and our language more user friendly to economists.
+As currently built, the YieldX only incorporates 1 mathematical function for generating predictions: linear regression. While useful, it has limitations since the line of best fit can be very inaccurate on non-linear data, which includes some commodities (e.g. crops which are heavily season dependent). To better model other kinds of data we have built the option to include more futures functions into the grammar allowing for easy and quick expansion of the language. We hope to work with professors in the Dartmouth Economics Department to make our models more realistic and our language more user friendly for economists.
 
 
 
